@@ -7,8 +7,6 @@ namespace RoadBattle
     public class VehicleStatsSO : ScriptableObject
     {
         [SerializeField]
-        private float topSpeed;
-        [SerializeField]
         private float finalSpeed;
         [SerializeField, Tooltip("Acceleration worked out as a = (v-u)/t => (120km/h - 0km/h)/14 for corrolla")]
         private float acceleration = (120f - 0f) / 14f;
@@ -16,14 +14,6 @@ namespace RoadBattle
         private float deceleration = (0f * 0f - 120f * 120f) / (2f * 100f);
         [SerializeField]
         private float mass;
-
-        public float TopSpeed
-        {
-            get
-            {
-                return topSpeed;
-            }
-        }
 
         public float FinalSpeed
         {

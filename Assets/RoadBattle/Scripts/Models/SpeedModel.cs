@@ -11,28 +11,29 @@ namespace RoadBattle.Physics
 		private float finalSpeed;
 		private float acceleration;
 
-		public SpeedModel(float finalSpeed, float acceleration)
+		public SpeedModel(VehicleStatsSO vehicleStats)
 		{
-			this.finalSpeed = finalSpeed;
-			this.acceleration = acceleration;
+			this.finalSpeed = vehicleStats.FinalSpeed;
+			this.acceleration = vehicleStats.Acceleration;
 		}
 
-		public void DoLogic(float deltaTime, float currentBrakeStrength)
-		{
-			CalculateCurrentSpeed(deltaTime, acceleration - currentBrakeStrength);
-		}
-
-        private void CalculateCurrentSpeed(float deltaTime, float currentAcceleration)
+        public void DoLogic(float deltaTime, float currentBrakeStrength)
         {
+            CurrentSpeedCalculator(deltaTime, currentBrakeStrength);
+        }
+
+        private void CurrentSpeedCalculator(float deltaTime, float currentAcceleration)
+        {
+            float currentSpeed;
             // using equation of motion v = u + a*t
-            CurrentSpeed = CurrentSpeed + currentAcceleration * deltaTime;
-			CurrentSpeed = Math.Clamp(CurrentSpeed, 0, finalSpeed);
+            currentSpeed = CurrentSpeed + currentAcceleration * deltaTime;
+            CurrentSpeed = Math.Clamp(currentSpeed, 0, finalSpeed);
         }
 
         public float CurrentSpeed
-		{
-			get;
-			private set;
-		}
-	} 
+        {
+            get;
+            private set;
+        }
+    } 
 }
