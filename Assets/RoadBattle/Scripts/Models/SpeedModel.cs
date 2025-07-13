@@ -22,18 +22,24 @@ namespace RoadBattle.Physics
             CurrentSpeedCalculator(deltaTime, currentBrakeStrength);
         }
 
-        private void CurrentSpeedCalculator(float deltaTime, float currentAcceleration)
+        public void RuntimeSpecUpdates(VehicleStatsSO vehicleStats)
         {
-            float currentSpeed;
-            // using equation of motion v = u + a*t
-            currentSpeed = CurrentSpeed + currentAcceleration * deltaTime;
-            CurrentSpeed = Math.Clamp(currentSpeed, 0, finalSpeed);
+            this.finalSpeed = vehicleStats.FinalSpeed;
+            this.acceleration = vehicleStats.Acceleration;
         }
 
         public float CurrentSpeed
         {
             get;
             private set;
+        }
+
+        private void CurrentSpeedCalculator(float deltaTime, float currentAcceleration)
+        {
+            float currentSpeed;
+            // using equation of motion v = u + a*t
+            currentSpeed = CurrentSpeed + currentAcceleration * deltaTime;
+            CurrentSpeed = Math.Clamp(currentSpeed, 0, finalSpeed);
         }
     } 
 }

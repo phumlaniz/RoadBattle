@@ -811,6 +811,9 @@ MonoBehaviour:
   TreeParent: {fileID: 558936641}
   treePrefabs:
   - {fileID: 6238349682819448931, guid: 0eb745097ff7dc04d9f73054e1aad39a, type: 3}
+  - {fileID: 6238349682819448931, guid: 17cf6da5fb0e89745a8228541b58f5ce, type: 3}
+  - {fileID: 6238349682819448931, guid: 0af50847933990c46ac9ef6089154b61, type: 3}
+  - {fileID: 6238349682819448931, guid: f1a46135adaabd145a8ab55a4bb4bebc, type: 3}
   shrubPrefabs: []
   LeftBoundArea:
     minBound: {fileID: 1681343965}

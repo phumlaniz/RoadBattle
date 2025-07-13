@@ -45,6 +45,7 @@ namespace RoadBattle
             accelerationModel.DoLogic(debugBraking);
 
             speedModel.DoLogic(deltaTime, accelerationModel.CurrentAcceleration);
+            speedModel.RuntimeSpecUpdates(VehicleStats);
             transform.position += new Vector3(0f, 0f, speedModel.CurrentSpeed * deltaTime);
 
             passedTime += deltaTime;

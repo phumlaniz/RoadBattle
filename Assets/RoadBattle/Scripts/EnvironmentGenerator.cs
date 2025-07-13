@@ -47,21 +47,24 @@ namespace RoadBattle
         private void SproutTrees(BoundArea BoundArea)
         {
             noiseTexture = new Texture2D(pixWidth, pixHeight);
+            int randomNum = 0;
             for (float y = 0f; y < pixHeight; y++)
             {
                 for (float x = 0f; x < pixWidth; x++)
                 {
-                    int randomNum = Random.Range(0, 100);
+                    randomNum = Random.Range(0, 100);
                     bool shouldSproutTree = randomNum >= 50;
                     float xCoord = x / pixWidth;
                     float zCoord = y / pixHeight;
                     if (shouldSproutTree)
                     {
-                        GameObject newTreeSpawn = Instantiate(treePrefabs[0], TreeParent);
+                        randomNum = Random.Range(0, treePrefabs.Length);
+                        GameObject newTreeSpawn = Instantiate(treePrefabs[randomNum], TreeParent);
                         newTreeSpawn.isStatic = true;
                         float xPos = Mathf.Lerp(BoundArea.MinBound.position.x, BoundArea.MaxBound.position.x, xCoord);
                         float zPos = Mathf.Lerp(BoundArea.MinBound.position.z, BoundArea.MaxBound.position.z, zCoord);
                         newTreeSpawn.transform.position = new Vector3(xPos, 0, zPos);
+                        newTreeSpawn.transform.eulerAngles = new Vector3(0, Random.Range(0, 360), 0);
                     }
                 }
             }
