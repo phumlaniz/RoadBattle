@@ -40,11 +40,13 @@ namespace RoadBattle
 
         void Start()
         {
-            SproutTrees(LeftBoundArea);
-            SproutTrees(RightBoundArea);
+            SproutVegetation(LeftBoundArea, treePrefabs);
+            SproutVegetation(RightBoundArea, treePrefabs);
+            SproutVegetation(LeftBoundArea, shrubPrefabs);
+            SproutVegetation(RightBoundArea, shrubPrefabs);
         }
 
-        private void SproutTrees(BoundArea BoundArea)
+        private void SproutVegetation(BoundArea BoundArea, GameObject[] prefabs)
         {
             noiseTexture = new Texture2D(pixWidth, pixHeight);
             int randomNum = 0;
@@ -58,8 +60,8 @@ namespace RoadBattle
                     float zCoord = y / pixHeight;
                     if (shouldSproutTree)
                     {
-                        randomNum = Random.Range(0, treePrefabs.Length);
-                        GameObject newTreeSpawn = Instantiate(treePrefabs[randomNum], TreeParent);
+                        randomNum = Random.Range(0, prefabs.Length);
+                        GameObject newTreeSpawn = Instantiate(prefabs[randomNum], TreeParent);
                         newTreeSpawn.isStatic = true;
                         float xPos = Mathf.Lerp(BoundArea.MinBound.position.x, BoundArea.MaxBound.position.x, xCoord);
                         float zPos = Mathf.Lerp(BoundArea.MinBound.position.z, BoundArea.MaxBound.position.z, zCoord);

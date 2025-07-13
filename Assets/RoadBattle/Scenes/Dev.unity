@@ -461,7 +461,7 @@ GameObject:
   m_Component:
   - component: {fileID: 470301512}
   m_Layer: 0
-  m_Name: MaxBound_Right
+  m_Name: Tree_MaxBound_Right
   m_TagString: Untagged
   m_Icon: {fileID: 7866945982896999795, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -523,7 +523,7 @@ GameObject:
   m_Component:
   - component: {fileID: 621022841}
   m_Layer: 0
-  m_Name: MinBound_Right
+  m_Name: Tree_MinBound_Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -799,6 +799,7 @@ Transform:
   - {fileID: 621022841}
   - {fileID: 470301512}
   - {fileID: 558936641}
+  - {fileID: 1504356507}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1012525041
@@ -938,6 +939,37 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.01, z: 5000}
   m_LocalScale: {x: 0.3, y: 1, z: 1000}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1012525040}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1504356506
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1504356507}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1504356507
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1504356506}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1012525040}
@@ -1122,7 +1154,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1681343965}
   m_Layer: 0
-  m_Name: MinBound_Left
+  m_Name: Tree_MinBound_Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1369,7 +1401,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2080099307}
   m_Layer: 0
-  m_Name: MaxBound_Left
+  m_Name: Tree_MaxBound_Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
