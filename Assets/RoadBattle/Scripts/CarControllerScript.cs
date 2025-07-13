@@ -39,9 +39,9 @@ namespace RoadBattle
             accelerationModel = new AccelerationModel(VehicleStats);
         }
 
-        void Update()
+        void FixedUpdate()
         {
-            deltaTime = Time.deltaTime;
+            deltaTime = Time.fixedDeltaTime;
             accelerationModel.DoLogic(debugBraking);
 
             speedModel.DoLogic(deltaTime, accelerationModel.CurrentAcceleration);

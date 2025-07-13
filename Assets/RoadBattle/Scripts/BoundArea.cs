@@ -15,7 +15,7 @@ namespace RoadBattle
 		{
 			get
 			{
-				return maxBound;
+				return minBound;
 			}
 		}
 

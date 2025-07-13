@@ -1,4 +1,5 @@
 using System.Xml.Serialization;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace RoadBattle
@@ -39,20 +40,28 @@ namespace RoadBattle
 
         void Start()
         {
+            SproutTrees(LeftBoundArea);
+            SproutTrees(RightBoundArea);
+        }
+
+        private void SproutTrees(BoundArea BoundArea)
+        {
             noiseTexture = new Texture2D(pixWidth, pixHeight);
-            for (float y = 0f; y < noiseTexture.height; y++)
+            for (float y = 0f; y < pixHeight; y++)
             {
-                for (float x = 0f; x < noiseTexture.width; x++)
+                for (float x = 0f; x < pixWidth; x++)
                 {
-                    float xCoord = xOrg + x / noiseTexture.width * xScale;
-                    float yCoord = yOrg + y / noiseTexture.height * yScale;
-                    float sample = Mathf.PerlinNoise(xCoord, yCoord);
-                    if (sample >= SprountFrequency)
+                    int randomNum = Random.Range(0, 100);
+                    bool shouldSproutTree = randomNum >= 50;
+                    float xCoord = x / pixWidth;
+                    float zCoord = y / pixHeight;
+                    if (shouldSproutTree)
                     {
-                        GameObject newTreeSpawn = Instantiate(treePrefabs[0], TreeParent);/*
-                        float xpos = Mathf.Lerp(LeftBoundArea.MinBound.position.x, LeftBoundArea.MaxBound.position.x, xCoord);
-                        float ypos = Mathf.Lerp(LeftBoundArea.MinBound.position.y, LeftBoundArea.MaxBound.position.y, yCoord);*/
-                        newTreeSpawn.transform.position = new Vector3(xCoord, 0, yCoord);
+                        GameObject newTreeSpawn = Instantiate(treePrefabs[0], TreeParent);
+                        newTreeSpawn.isStatic = true;
+                        float xPos = Mathf.Lerp(BoundArea.MinBound.position.x, BoundArea.MaxBound.position.x, xCoord);
+                        float zPos = Mathf.Lerp(BoundArea.MinBound.position.z, BoundArea.MaxBound.position.z, zCoord);
+                        newTreeSpawn.transform.position = new Vector3(xPos, 0, zPos);
                     }
                 }
             }
