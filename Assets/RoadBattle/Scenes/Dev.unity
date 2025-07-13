@@ -325,7 +325,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 5000}
-  m_LocalScale: {x: 2, y: 1, z: 1000}
+  m_LocalScale: {x: 8, y: 1, z: 1000}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1012525040}
@@ -463,7 +463,7 @@ GameObject:
   m_Layer: 0
   m_Name: MaxBound_Right
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 7866945982896999795, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -476,7 +476,7 @@ Transform:
   m_GameObject: {fileID: 470301511}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 8, y: 0, z: 9998}
+  m_LocalPosition: {x: 40, y: 0, z: 9998}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -827,7 +827,7 @@ MonoBehaviour:
     minBound: {fileID: 621022841}
     maxBound: {fileID: 470301512}
   SprountFrequency: 0.4
-  pixWidth: 4
+  pixWidth: 20
   pixHeight: 1000
   xOrg: 0
   yOrg: 0
@@ -1137,7 +1137,7 @@ Transform:
   m_GameObject: {fileID: 1681343964}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -8, y: 0, z: 2}
+  m_LocalPosition: {x: -40, y: 0, z: 2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
