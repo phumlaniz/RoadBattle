@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f87a2e2c4ca22c429be88171275b194, type: 3}
   m_Name: VehicleStatsSO
   m_EditorClassIdentifier: 
-  finalSpeed: 80
+  finalSpeed: 100
   acceleration: 9
   deceleration: -72
   mass: 1000
