@@ -73,11 +73,11 @@ namespace RoadBattle
         void FixedUpdate()
         {
             deltaTime = Time.fixedDeltaTime;
-            accelerationModel.DoLogic(appliedBrakeFactor: 0.0f);
+            accelerationModel.DoLogic(steerAction.y * -1f);
 
             speedModel.DoLogic(deltaTime, accelerationModel.CurrentAcceleration);
             speedModel.RuntimeSpecUpdates(VehicleStats);
-            transform.position += new Vector3(0f, 0f, speedModel.CurrentSpeed * deltaTime);
+            transform.position += new Vector3(steerAction.x * VehicleStats.SteerStrength * deltaTime, 0f, speedModel.CurrentSpeed * deltaTime);
 
             passedTime += deltaTime;
 

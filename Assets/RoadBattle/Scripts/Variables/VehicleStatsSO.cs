@@ -13,6 +13,8 @@ namespace RoadBattle
         [SerializeField, Tooltip("The amount of strength required to reduce speed(km/h), calculated using v^2 = u^2 + 2*a*s for corrolla")]
         private float deceleration = (0f * 0f - 120f * 120f) / (2f * 100f);
         [SerializeField]
+        private float steerStrength;
+        [SerializeField]
         private float mass;
 
         public float FinalSpeed
@@ -44,6 +46,14 @@ namespace RoadBattle
             get
             {
                 return mass;
+            }
+        }
+
+        public float SteerStrength
+        {
+            get
+            {
+                return steerStrength;
             }
         }
     }
