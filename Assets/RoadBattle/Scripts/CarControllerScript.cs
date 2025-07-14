@@ -10,8 +10,6 @@ namespace RoadBattle
         [Header("Input")]
         [SerializeField]
         private VehicleStatsSO VehicleStats;
-        [SerializeField, Range(0f, 1f)]
-        private float debugBraking = 0f;
 
         [Header("Controls")]
         [SerializeField]
@@ -28,21 +26,54 @@ namespace RoadBattle
         private SpeedModel speedModel;
         private AccelerationModel accelerationModel;
 
-        void Start()
+        private InputSystem_Actions inputActions;
+        private Vector2 steerAction;
+
+
+        private void Awake()
         {
             rb = GetComponent<Rigidbody>();
-            SteerAction = InputSystem.actions.FindAction("Move");
-            Interact = InputSystem.actions.FindAction("Interact");
+            inputActions = new InputSystem_Actions();
+        }
 
+        private void OnEnable()
+        {
+            SteerAction = inputActions.Player.Move;
+            Interact = inputActions.Player.Interact;
+
+            SteerAction.Enable();
+            Interact.Enable();
+
+            Interact.started += Interact_performed;
+        }
+
+        private void Interact_performed(InputAction.CallbackContext context)
+        {
+            Debug.Log("Interact performed!");
+        }
+
+        private void OnDisable()
+        {
+            SteerAction.Disable();
+            Interact.Disable();
+        }
+
+        void Start()
+        {
             // model initialization
             speedModel = new SpeedModel(VehicleStats);
             accelerationModel = new AccelerationModel(VehicleStats);
         }
 
+        private void Update()
+        {
+            steerAction = SteerAction.ReadValue<Vector2>();
+        }
+
         void FixedUpdate()
         {
             deltaTime = Time.fixedDeltaTime;
-            accelerationModel.DoLogic(debugBraking);
+            accelerationModel.DoLogic(appliedBrakeFactor: 0.0f);
 
             speedModel.DoLogic(deltaTime, accelerationModel.CurrentAcceleration);
             speedModel.RuntimeSpecUpdates(VehicleStats);
@@ -50,7 +81,7 @@ namespace RoadBattle
 
             passedTime += deltaTime;
 
-            Debug.Log($"Curr Speed: {speedModel.CurrentSpeed} Acc:{accelerationModel.CurrentAcceleration} Time: {passedTime}");
+            //Debug.Log($"Curr Speed: {speedModel.CurrentSpeed} Acc:{accelerationModel.CurrentAcceleration} Time: {passedTime}");
         }
     }
 }

@@ -58,7 +58,7 @@ namespace RoadBattle
                     bool shouldSproutTree = randomNum >= 50;
                     float xCoord = x / pixWidth;
                     float zCoord = y / pixHeight;
-                    if (shouldSproutTree)
+                    if (shouldSproutTree && prefabs.Length > 0)
                     {
                         randomNum = Random.Range(0, prefabs.Length);
                         GameObject newTreeSpawn = Instantiate(prefabs[randomNum], TreeParent);
