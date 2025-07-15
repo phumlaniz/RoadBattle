@@ -91,7 +91,7 @@ namespace RoadBattle
             steeringModel.RuntimeSpecUpdates(VehicleStats);
 
 
-            transform.position += new Vector3(steerAction.x * VehicleStats.SteerStrength * deltaTime, 0f, speedModel.CurrentSpeed * deltaTime);
+            transform.position += new Vector3(0, 0f, speedModel.CurrentSpeed * deltaTime);
 
             passedTime += deltaTime;
             if (previousSteerDirection != steeringModel.SteerDirection)
@@ -99,16 +99,24 @@ namespace RoadBattle
                 switch (steeringModel.SteerDirection)
                 {
                     case SteerDirection.Right:
-                        if (CurrentLane.RightLane != null)
+                        if (CurrentLane.HasRightLane)
                         {
                             CurrentLane = CurrentLane.RightLane;
+                        }
+                        else
+                        {
+                            //crashing to the bounds
                         }
                         break;
 
                     case SteerDirection.Left:
-                        if (CurrentLane.LeftLane != null)
+                        if (CurrentLane.HasLeftLane)
                         {
                             CurrentLane = CurrentLane.LeftLane;
+                        }
+                        else
+                        {
+                            //crashing to the bounds
                         }
                         break;
                 }

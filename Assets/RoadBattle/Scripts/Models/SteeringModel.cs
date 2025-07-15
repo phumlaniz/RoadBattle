@@ -39,49 +39,11 @@ namespace RoadBattle
             {
                 SteerDirection = SteerDirection.None;
             }
-
-            if (SteerDirection != prevSteerDirection)
-            {
-                switch (SteerDirection)
-                {
-                    case SteerDirection.Left:
-                        if (currentLane.HasLeftLane)
-                        {
-                            targetSteerValue = currentLane.LeftLanePosition;
-                            prevSteerValue = currentLane.LanePosition;
-                            isTransitioningToLane = true;
-                        }
-                        break;
-                    case SteerDirection.Right:
-                        if (currentLane.HasRightLane)
-                        {
-                            targetSteerValue = currentLane.RightLanePosition;
-                            prevSteerValue = currentLane.LanePosition;
-                            isTransitioningToLane = true;
-                        }
-                        break;
-                }
-            }
-            prevSteerDirection = SteerDirection;
-            if (isTransitioningToLane)
-            {
-                CurrentSteeringDeflection = Mathf.Lerp(prevSteerValue, targetSteerValue, steerStrength * deltaTime);
-            }
-            if(CurrentSteeringDeflection == targetSteerValue)
-            {
-                isTransitioningToLane = false;
-            }
         }
 
         public void RuntimeSpecUpdates(VehicleStatsSO vehicleStats)
         {
             steerStrength = vehicleStats.SteerStrength;
-        }
-
-        public float CurrentSteeringDeflection
-        {
-            get;
-            private set;
         }
 
         public SteerDirection SteerDirection
