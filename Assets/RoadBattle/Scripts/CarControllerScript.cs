@@ -16,6 +16,7 @@ namespace RoadBattle
         // private variables
         private float deltaTime;
         private float passedTime;
+        private float stepFactor;
         private Rigidbody rb;
         private InputSystem_Actions inputActions;
         private InputAction SteerAction;
@@ -98,7 +99,8 @@ namespace RoadBattle
 
             if (PreviousLane != null && CurrentLane != null)
             {
-                vehiclePosition.x = Mathf.Lerp(transform.position.x, CurrentLane.LanePosition, deltaTime * VehicleStats.SteerStrength);
+                stepFactor += deltaTime * VehicleStats.SteerStrength;
+                vehiclePosition.x = Mathf.Lerp(transform.position.x, CurrentLane.LanePosition, stepFactor);
             }
             transform.position = vehiclePosition;
 
@@ -112,6 +114,7 @@ namespace RoadBattle
                         {
                             PreviousLane = CurrentLane;
                             CurrentLane = CurrentLane.RightLane;
+                            stepFactor = 0;
                         }
                         else
                         {
@@ -124,6 +127,7 @@ namespace RoadBattle
                         {
                             PreviousLane = CurrentLane;
                             CurrentLane = CurrentLane.LeftLane;
+                            stepFactor = 0;
                         }
                         else
                         {
