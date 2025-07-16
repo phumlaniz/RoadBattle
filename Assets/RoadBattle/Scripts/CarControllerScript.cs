@@ -24,6 +24,7 @@ namespace RoadBattle
         private Vector2 steerAction;
         private Vector3 vehiclePosition;
         private Lane CurrentLane;
+        private Lane PreviousLane;
         private SteerDirection previousSteerDirection;
 
         //models
@@ -70,6 +71,7 @@ namespace RoadBattle
                 CurrentLane = GameManager.Instance.SpwanLane;
             }
             transform.position = new Vector3(CurrentLane.LanePosition, transform.position.y, transform.position.z);
+            vehiclePosition = transform.position;
         }
 
         private void Update()
@@ -87,11 +89,18 @@ namespace RoadBattle
             speedModel.DoLogic(deltaTime, accelerationModel.CurrentAcceleration);
             speedModel.RuntimeSpecUpdates(VehicleStats);
 
-            steeringModel.DoLogic(deltaTime, steerAction.x, CurrentLane);
+            steeringModel.DoLogic(deltaTime, steerAction.x);
             steeringModel.RuntimeSpecUpdates(VehicleStats);
 
+            float step = VehicleStats.SteerStrength * deltaTime;
 
-            transform.position += new Vector3(0, 0f, speedModel.CurrentSpeed * deltaTime);
+            vehiclePosition += new Vector3(0f, 0f, speedModel.CurrentSpeed * deltaTime);
+
+            if (PreviousLane != null && CurrentLane != null)
+            {
+                vehiclePosition.x = Mathf.Lerp(transform.position.x, CurrentLane.LanePosition, deltaTime * VehicleStats.SteerStrength);
+            }
+            transform.position = vehiclePosition;
 
             passedTime += deltaTime;
             if (previousSteerDirection != steeringModel.SteerDirection)
@@ -101,6 +110,7 @@ namespace RoadBattle
                     case SteerDirection.Right:
                         if (CurrentLane.HasRightLane)
                         {
+                            PreviousLane = CurrentLane;
                             CurrentLane = CurrentLane.RightLane;
                         }
                         else
@@ -112,6 +122,7 @@ namespace RoadBattle
                     case SteerDirection.Left:
                         if (CurrentLane.HasLeftLane)
                         {
+                            PreviousLane = CurrentLane;
                             CurrentLane = CurrentLane.LeftLane;
                         }
                         else

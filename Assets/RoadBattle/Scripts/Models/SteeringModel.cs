@@ -22,7 +22,7 @@ namespace RoadBattle
             this.steerThreshold = steerThreshold;
         }
 
-        public void DoLogic(float deltaTime, float steeringInput, Lane currentLane)
+        public void DoLogic(float deltaTime, float steeringInput)
         {
             if (Mathf.Abs(steeringInput) > steerThreshold)
             {
