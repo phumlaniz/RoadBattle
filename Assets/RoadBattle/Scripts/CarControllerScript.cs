@@ -1,4 +1,6 @@
 using RoadBattle.Physics;
+using System.Collections;
+using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -11,24 +13,25 @@ namespace RoadBattle
         [SerializeField]
         private VehicleStatsSO VehicleStats;
 
-        [Header("Controls")]
-        [SerializeField]
-        private InputAction SteerAction;
-        [SerializeField]
-        private InputAction Interact;
-
         // private variables
         private float deltaTime;
         private float passedTime;
+        private float stepFactor;
         private Rigidbody rb;
+        private InputSystem_Actions inputActions;
+        private InputAction SteerAction;
+        private InputAction Interact;
+
+        private Vector2 steerAction;
+        private Vector3 vehiclePosition;
+        private Lane CurrentLane;
+        private Lane PreviousLane;
+        private SteerDirection previousSteerDirection;
 
         //models
         private SpeedModel speedModel;
         private AccelerationModel accelerationModel;
-
-        private InputSystem_Actions inputActions;
-        private Vector2 steerAction;
-
+        private SteeringModel steeringModel;
 
         private void Awake()
         {
@@ -44,10 +47,10 @@ namespace RoadBattle
             SteerAction.Enable();
             Interact.Enable();
 
-            Interact.started += Interact_performed;
+            Interact.started += Interact_started; ;
         }
 
-        private void Interact_performed(InputAction.CallbackContext context)
+        private void Interact_started(InputAction.CallbackContext context)
         {
             Debug.Log("Interact performed!");
         }
@@ -63,6 +66,13 @@ namespace RoadBattle
             // model initialization
             speedModel = new SpeedModel(VehicleStats);
             accelerationModel = new AccelerationModel(VehicleStats);
+            steeringModel = new SteeringModel(VehicleStats);
+            if (CurrentLane == null)
+            {
+                CurrentLane = GameManager.Instance.SpwanLane;
+            }
+            transform.position = new Vector3(CurrentLane.LanePosition, transform.position.y, transform.position.z);
+            vehiclePosition = transform.position;
         }
 
         private void Update()
@@ -73,15 +83,60 @@ namespace RoadBattle
         void FixedUpdate()
         {
             deltaTime = Time.fixedDeltaTime;
+
             accelerationModel.DoLogic(steerAction.y * -1f);
+            accelerationModel.RuntimeSpecUpdates(VehicleStats);
 
             speedModel.DoLogic(deltaTime, accelerationModel.CurrentAcceleration);
             speedModel.RuntimeSpecUpdates(VehicleStats);
-            transform.position += new Vector3(steerAction.x * VehicleStats.SteerStrength * deltaTime, 0f, speedModel.CurrentSpeed * deltaTime);
+
+            steeringModel.DoLogic(deltaTime, steerAction.x);
+            steeringModel.RuntimeSpecUpdates(VehicleStats);
+
+            float step = VehicleStats.SteerStrength * deltaTime;
+
+            vehiclePosition += new Vector3(0f, 0f, speedModel.CurrentSpeed * deltaTime);
+
+            if (PreviousLane != null && CurrentLane != null)
+            {
+                stepFactor += deltaTime * VehicleStats.SteerStrength;
+                vehiclePosition.x = Mathf.Lerp(transform.position.x, CurrentLane.LanePosition, stepFactor);
+            }
+            transform.position = vehiclePosition;
 
             passedTime += deltaTime;
+            if (previousSteerDirection != steeringModel.SteerDirection)
+            {
+                switch (steeringModel.SteerDirection)
+                {
+                    case SteerDirection.Right:
+                        if (CurrentLane.HasRightLane)
+                        {
+                            PreviousLane = CurrentLane;
+                            CurrentLane = CurrentLane.RightLane;
+                            stepFactor = 0;
+                        }
+                        else
+                        {
+                            //crashing to the bounds
+                        }
+                        break;
 
-            //Debug.Log($"Curr Speed: {speedModel.CurrentSpeed} Acc:{accelerationModel.CurrentAcceleration} Time: {passedTime}");
+                    case SteerDirection.Left:
+                        if (CurrentLane.HasLeftLane)
+                        {
+                            PreviousLane = CurrentLane;
+                            CurrentLane = CurrentLane.LeftLane;
+                            stepFactor = 0;
+                        }
+                        else
+                        {
+                            //crashing to the bounds
+                        }
+                        break;
+                }
+            }
+            previousSteerDirection = steeringModel.SteerDirection;
         }
     }
 }

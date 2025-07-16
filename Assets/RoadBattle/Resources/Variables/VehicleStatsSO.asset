@@ -15,5 +15,5 @@ MonoBehaviour:
   finalSpeed: 120
   acceleration: 9
   deceleration: -72
-  steerStrength: 10
+  steerStrength: 1
   mass: 1000

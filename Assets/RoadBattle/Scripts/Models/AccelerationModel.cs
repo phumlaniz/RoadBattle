@@ -32,6 +32,12 @@ namespace RoadBattle.Physics
             }
         }
 
+        public void RuntimeSpecUpdates(VehicleStatsSO vehicleStats)
+        {
+            acceleration = vehicleStats.Acceleration;
+            deceleration = vehicleStats.Deceleration;
+        }
+
         public float CurrentAcceleration
         {
             get;
