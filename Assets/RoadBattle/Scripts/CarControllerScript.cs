@@ -11,7 +11,7 @@ namespace RoadBattle
     {
         [Header("Input")]
         [SerializeField]
-        private VehicleStatsSO VehicleStats;
+        private VehicleStatsSO vehicleStats;
 
         // private variables
         private float deltaTime;
@@ -64,9 +64,9 @@ namespace RoadBattle
         void Start()
         {
             // model initialization
-            speedModel = new SpeedModel(VehicleStats);
-            accelerationModel = new AccelerationModel(VehicleStats);
-            steeringModel = new SteeringModel(VehicleStats);
+            speedModel = new SpeedModel(vehicleStats);
+            accelerationModel = new AccelerationModel(vehicleStats);
+            steeringModel = new SteeringModel(vehicleStats);
             if (CurrentLane == null)
             {
                 CurrentLane = GameManager.Instance.SpwanLane;
@@ -85,21 +85,19 @@ namespace RoadBattle
             deltaTime = Time.fixedDeltaTime;
 
             accelerationModel.DoLogic(steerAction.y * -1f);
-            accelerationModel.RuntimeSpecUpdates(VehicleStats);
+            accelerationModel.RuntimeSpecUpdates(vehicleStats);
 
             speedModel.DoLogic(deltaTime, accelerationModel.CurrentAcceleration);
-            speedModel.RuntimeSpecUpdates(VehicleStats);
+            speedModel.RuntimeSpecUpdates(vehicleStats);
 
             steeringModel.DoLogic(deltaTime, steerAction.x);
-            steeringModel.RuntimeSpecUpdates(VehicleStats);
-
-            float step = VehicleStats.SteerStrength * deltaTime;
+            steeringModel.RuntimeSpecUpdates(vehicleStats);
 
             vehiclePosition += new Vector3(0f, 0f, speedModel.CurrentSpeed * deltaTime);
 
             if (PreviousLane != null && CurrentLane != null)
             {
-                stepFactor += deltaTime * VehicleStats.SteerStrength;
+                stepFactor += deltaTime * vehicleStats.SteerStrength;
                 vehiclePosition.x = Mathf.Lerp(transform.position.x, CurrentLane.LanePosition, stepFactor);
             }
             transform.position = vehiclePosition;
@@ -137,6 +135,14 @@ namespace RoadBattle
                 }
             }
             previousSteerDirection = steeringModel.SteerDirection;
+        }
+
+        public VehicleStatsSO VehicleStats
+        {
+            get
+            {
+                return vehicleStats;
+            }
         }
     }
 }

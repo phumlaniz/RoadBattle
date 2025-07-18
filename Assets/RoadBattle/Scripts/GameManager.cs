@@ -49,7 +49,7 @@ public class GameManager : MonoBehaviour
         if (spawnTimer >= SpawnRate)
         {
             spawnTimer = 0;
-            spawningModel.SpawnRegularCarAt(SpawnDistance);
+            spawningModel.SpawnRegularCarAt(SpawnDistance, MainCar.VehicleStats);
         }
     }
 

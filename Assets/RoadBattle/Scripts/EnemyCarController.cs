@@ -1,17 +1,42 @@
+using RoadBattle.Physics;
+using System;
+using System.Collections;
+using System.ComponentModel;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using static Unity.Cinemachine.AxisState;
 
-public class EnemyCarController : MonoBehaviour
+namespace RoadBattle
 {
+    [RequireComponent(typeof(Rigidbody)), RequireComponent(typeof(BoxCollider))]
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public class EnemyCarController : MonoBehaviour
     {
-        
-    }
+        [Header("Input")]
+        [SerializeField]
+        private float Speed = 90f;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        // private variables
+        private float deltaTime;
+        private Vector2 steerAction;
+        private Vector3 vehiclePosition;
+
+
+        internal void SetSpeed(float speed)
+        {
+            Speed = speed;
+        }
+
+        public void SetPosition(Vector3 position)
+        {
+            vehiclePosition = position;
+        }
+
+        void FixedUpdate()
+        {
+            deltaTime = Time.fixedDeltaTime;
+            vehiclePosition += new Vector3(0f, 0f, Speed * deltaTime);
+            transform.position = vehiclePosition;
+        }
     }
 }
