@@ -1,44 +1,47 @@
 using UnityEngine;
 
-public class Lane : MonoBehaviour
+namespace RoadBattle
 {
-    [SerializeField]
-    private Lane leftLane;
-    [SerializeField]
-    private Lane rightLane;
-
-    public bool HasLeftLane
+    public class Lane : MonoBehaviour
     {
-        get { return leftLane != null; }
-    }
+        [SerializeField]
+        private Lane leftLane;
+        [SerializeField]
+        private Lane rightLane;
 
-    public bool HasRightLane
-    {
-        get { return rightLane != null; }
-    }
+        public bool HasLeftLane
+        {
+            get { return leftLane != null; }
+        }
 
-    public float LanePosition
-    {
-        get { return transform.position.x; }
-    }
+        public bool HasRightLane
+        {
+            get { return rightLane != null; }
+        }
 
-    public float LeftLanePosition
-    {
-        get { return leftLane.LanePosition; }
-    }
+        public float LanePosition
+        {
+            get { return transform.position.x; }
+        }
 
-    public float RightLanePosition
-    {
-        get { return rightLane.LanePosition; }
-    }
+        public float LeftLanePosition
+        {
+            get { return leftLane.LanePosition; }
+        }
 
-    public Lane LeftLane
-    {
-        get { return leftLane; }
-    }
+        public float RightLanePosition
+        {
+            get { return rightLane.LanePosition; }
+        }
 
-    public Lane RightLane
-    {
-        get { return rightLane; }
-    }
+        public Lane LeftLane
+        {
+            get { return leftLane; }
+        }
+
+        public Lane RightLane
+        {
+            get { return rightLane; }
+        }
+    } 
 }
