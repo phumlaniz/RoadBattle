@@ -1,6 +1,7 @@
 using RoadBattle.Physics;
 using System.Collections;
 using System.ComponentModel;
+using UnityEditor.Toolbars;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -32,6 +33,9 @@ namespace RoadBattle
         private SpeedModel speedModel;
         private AccelerationModel accelerationModel;
         private SteeringModel steeringModel;
+
+        private float MinSteeringExent;
+        private float MaxSteeringExtent;
 
         private void Awake()
         {
@@ -66,13 +70,26 @@ namespace RoadBattle
             // model initialization
             speedModel = new SpeedModel(vehicleStats);
             accelerationModel = new AccelerationModel(vehicleStats);
-            steeringModel = new SteeringModel(vehicleStats);
+            steeringModel = new SteeringModel(vehicleStats, steerThreshold: 0.05f, isLinearlySteering: true);
             if (CurrentLane == null)
             {
                 CurrentLane = GameManager.Instance.SpwanLane;
             }
             transform.position = new Vector3(CurrentLane.LanePosition, transform.position.y, transform.position.z);
             vehiclePosition = transform.position;
+            foreach (var lane in GameManager.Instance.CurrentLanes)
+            {
+                MinSteeringExent = 0;
+                MaxSteeringExtent = 0;
+                if (lane.transform.position.x < MinSteeringExent)
+                {
+                    MinSteeringExent = transform.position.x;
+                }
+                if (lane.transform.position.x > MaxSteeringExtent)
+                {
+                    MinSteeringExent = transform.position.x;
+                }
+            }
         }
 
         private void Update()
@@ -95,11 +112,17 @@ namespace RoadBattle
 
             vehiclePosition += new Vector3(0f, 0f, speedModel.CurrentSpeed * deltaTime);
 
-            if (PreviousLane != null && CurrentLane != null)
+            if (PreviousLane != null && CurrentLane != null && !steeringModel.IsLinearlySteering)
             {
                 stepFactor += deltaTime * vehicleStats.SteerStrength;
                 vehiclePosition.x = Mathf.Lerp(transform.position.x, CurrentLane.LanePosition, stepFactor);
             }
+            if (steeringModel.IsLinearlySteering)
+            {
+                vehiclePosition.x += steeringModel.Steering;
+                //vehiclePosition.x = Mathf.Clamp(vehiclePosition.x , MinSteeringExent, MaxSteeringExtent);
+            }
+
             transform.position = vehiclePosition;
 
             passedTime += deltaTime;
